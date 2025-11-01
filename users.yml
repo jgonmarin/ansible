@@ -1,0 +1,26 @@
+---
+- name: Create vagrant users with vault                                                                                    
+  hosts: servidores
+  become: yes                                                                                              
+  vars:
+    packages:
+      - memcached
+      - mariadb-server
+  vars_files:
+    - user_list.yml
+  tasks:
+
+  - name: create users
+    ansible.builtin.user:
+      name: "{{ item.username }}"
+      password: "{{ item.password_hash }}"
+      state: present
+      shell: /bin/bash
+      create_home: yes
+    loop: "{{ users_to_create }}"
+
+  - name: "install redis if swap is > 20MB"
+    ansible.builtin.package:
+      name: redis
+      state: present
+    when: ansible_memory_mb_swap.total > 20
