@@ -1,0 +1,6 @@
+---
+- name: Deploy webserver Apache
+  hosts: servidores
+  become: yes
+  roles:
+    - deployment

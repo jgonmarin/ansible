@@ -1,0 +1,48 @@
+---
+# tasks file for roles/deployment
+
+- name: 1. Install httpd                                                                                           
+  ansible.builtin.yum:                                                                                                  
+    name: httpd                                                                                                             
+    state: present                                                                                                          
+
+- name: 2. start and enable httpd
+  ansible.builtin.service:
+    name: httpd
+    state: started
+    enabled: yes
+                                                                                                        
+- name: 3. Desploy vhost.conf template                                                                                    
+  ansible.builtin.template:                                                                                                 
+    src: vhost.conf.j2                                                                                            
+    dest: /etc/httpd/conf.d/vhost.conf                                                                                      
+    owner: root                                                                                                             
+    group: root                                                                                                             
+    mode: '0644'                                                                                                          
+  notify: Restart httpd
+
+- name: Ensure vhost directory exists
+  ansible.builtin.file:
+    path: "/var/www/vhosts/{{ ansible_hostname }}"
+    state: directory
+    owner: apache
+    group: apache
+    mode: '0755'
+
+- name: 4.2. Copy index.html
+  ansible.builtin.copy:
+    src: index.html
+    dest: "/var/www/vhosts/{{ ansible_hostname }}/index.html"
+    owner: apache
+    group: apache
+    mode: '0644'
+
+- name: 5. allow http services in firewall
+  ansible.posix.firewalld:
+    service: "{{ item }}"
+    permanent: true
+    state: enabled
+    immediate: yes
+  loop:
+    - http
+    - https

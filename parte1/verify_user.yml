@@ -1,0 +1,33 @@
+---
+- name: Verify the carlos user was created
+  hosts: servidores
+  become: yes
+  gather_facts: no
+  vars:
+    student: JoseGonzalezMarin
+    users_to_verify:
+      - carlos
+      - marta
+  tasks:
+
+    - name: "Verify the user exists"
+      ansible.builtin.getent:
+        database: passwd
+        key: "{{ item }}"
+      loop: "{{ users_to_verify }}"
+      register: user_check
+      ignore_errors: yes 
+
+    - name: "user was created"
+      ansible.builtin.debug:
+        msg: "{{ item.item }} was created"
+      loop: "{{ user_check.results }}"
+      when: not item.failed
+
+    - name: "Output user status to file"
+      ansible.builtin.lineinfile:
+        path: "/home/{{ student }}/verify.txt"
+        line: "{{ item.item }} was created"
+        create: true
+      loop: "{{ user_check.results }}"
+      when: item is defined and not item.failed

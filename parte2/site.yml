@@ -1,0 +1,6 @@
+---
+- name: calls deployment playbook 'deployment'
+  import_playbook: dev_deploy.yml
+
+- name: calls web content test playbook
+  import_playbook: get_web_content.yml

@@ -1,0 +1,27 @@
+---
+- name: Test web content
+  hosts: localhost
+  become: yes
+  gather_facts: false
+ 
+  tasks:
+    - name: 1. Retrieve web content and write to error log on failure.
+      block:
+        - name: 2. Retrieve web content from vagrant1
+          ansible.builtin.uri:
+            url: "http://vagrant2"
+            return_content: yes
+          register: content
+
+        - name: Web content test PASSED
+          ansible.builtin.debug:
+            msg: "{{ content.content | default('No content retrieved') }}"
+
+      rescue:
+        - name: 3. Write to error file
+          ansible.builtin.lineinfile:
+            path: ./error.log
+            line: "{{ content | to_nice_json }}"
+            create: yes
+            mode: '0644'
+          when: content is defined
