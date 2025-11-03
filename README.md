@@ -1,4 +1,46 @@
-Proyecto de Asignaciones de AnsibleEste repositorio contiene las asignaciones del curso de Ansible, separadas en dos partes.Parte 1: Gestión de Usuarios (Vault)Esta parte del proyecto gestiona la creación de usuarios y utiliza Ansible Vault para proteger la información sensible.EjecuciónPara ejecutar la Parte 1, primero entra en el directorio:cd parte1
-Luego, ejecuta el playbook users.yml. Este playbook utiliza un vault, por lo que te pedirá una contraseña:ansible-playbook users.yml --vault-password-file vault-pass
-El playbook debería ejecutarse sin ningún problema, creando los usuarios especificados.Parte 2: Despliegue de Servidor Web (Roles)Esta parte del proyecto despliega un servidor web Apache (httpd) completo, incluyendo configuración de vhost, firewall y SELinux. Utiliza una estructura de roles para una mejor organización.El playbook principal site.yml se encarga de orquestar todo, importando el playbook de despliegue (dev_deploy.yml) y el playbook de prueba (get_web_content.yml).EjecuciónPara ejecutar la Parte 2, primero entra en el directorio:cd parte2
-Para lanzar el despliegue completo y las pruebas, simplemente ejecuta el playbook principal site.yml:ansible-playbook site.yml
+Ansible Assignments Project
+
+This repository contains the assignments for the Ansible course, separated into two parts.
+
+Part 1: User Management (Vault)
+
+This part of the project manages user creation and uses Ansible Vault to protect sensitive information.
+
+Execution
+
+To run Part 1, first change into the directory:
+
+cd parte1
+
+
+Then, run the users.yml playbook. This playbook uses a vault, so it will ask for a password:
+
+ansible-playbook users.yml --vault-password-file vault-pass
+
+
+The playbook should run without any issues, creating the specified users.
+
+
+
+
+
+Part 2: Web Server Deployment (Roles)
+
+This part of the project deploys a complete Apache web server (httpd), including vhost configuration, firewall. It uses a roles structure for better organization.
+
+The main site.yml playbook orchestrates everything, importing the deployment playbook (dev_deploy.yml) and the test playbook (get_web_content.yml).
+
+Execution
+
+To run Part 2, first change into the directory:
+
+cd parte2
+
+To launch the full deployment and tests, simply run the main site.yml playbook:
+
+ansible-playbook site.yml
+
+
+To launch the full deployment and tests, simply run the main site.yml playbook:
+
+ansible-playbook site.
