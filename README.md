@@ -1,18 +1,4 @@
-# ansible
-Main assigments on Ansible Course
-
-FOR PART1
-
-to execute users.yml use the sentence:
-
-ansible-playbook users.yml --ask-vault-pass
-
-On promt introduce: secret
-
-It should execute without any issues
-
-FOR PART2
-
-Part2 is using a roles structure so to execute simply run the main playbook:
-
-ansible-playbook site.yml
+Proyecto de Asignaciones de AnsibleEste repositorio contiene las asignaciones del curso de Ansible, separadas en dos partes.Parte 1: Gestión de Usuarios (Vault)Esta parte del proyecto gestiona la creación de usuarios y utiliza Ansible Vault para proteger la información sensible.EjecuciónPara ejecutar la Parte 1, primero entra en el directorio:cd parte1
+Luego, ejecuta el playbook users.yml. Este playbook utiliza un vault, por lo que te pedirá una contraseña:ansible-playbook users.yml --vault-password-file vault-pass
+El playbook debería ejecutarse sin ningún problema, creando los usuarios especificados.Parte 2: Despliegue de Servidor Web (Roles)Esta parte del proyecto despliega un servidor web Apache (httpd) completo, incluyendo configuración de vhost, firewall y SELinux. Utiliza una estructura de roles para una mejor organización.El playbook principal site.yml se encarga de orquestar todo, importando el playbook de despliegue (dev_deploy.yml) y el playbook de prueba (get_web_content.yml).EjecuciónPara ejecutar la Parte 2, primero entra en el directorio:cd parte2
+Para lanzar el despliegue completo y las pruebas, simplemente ejecuta el playbook principal site.yml:ansible-playbook site.yml
